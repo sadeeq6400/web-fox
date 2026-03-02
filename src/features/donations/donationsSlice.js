@@ -14,5 +14,5 @@ const donationsSlice = createSlice({
     },
 });
 
-export const { } = donationsSlice.actions;
+
 export default donationsSlice.reducer;

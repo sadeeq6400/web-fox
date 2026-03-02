@@ -14,5 +14,5 @@ const bookmarksSlice = createSlice({
     },
 });
 
-export const { } = bookmarksSlice.actions;
+
 export default bookmarksSlice.reducer;

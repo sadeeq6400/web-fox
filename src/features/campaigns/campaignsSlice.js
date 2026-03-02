@@ -14,5 +14,5 @@ const campaignsSlice = createSlice({
     },
 });
 
-export const { } = campaignsSlice.actions;
+
 export default campaignsSlice.reducer;
