@@ -72,7 +72,7 @@ const ErrorMessage = ({ error, className = '', onDismiss }) => {
 
   return (
     <div className={`${baseStyles} ${typeStyles[errorType]} ${className}`}>
-      <div className="flex-shrink-0">
+      <div className="shrink-0">
         {errorType === 'error' && (
           <svg
             className={`w-5 h-5 ${iconColors[errorType]}`}
@@ -123,7 +123,7 @@ const ErrorMessage = ({ error, className = '', onDismiss }) => {
         </p>
         
         {/* Show additional details in development */}
-        {process.env.NODE_ENV === 'development' && displayError?.response && (
+        {import.meta.env.DEV && displayError?.response && (
           <details className="mt-2 text-xs">
             <summary className="cursor-pointer opacity-75 hover:opacity-100">
               Technical Details
@@ -156,7 +156,7 @@ const ErrorMessage = ({ error, className = '', onDismiss }) => {
 
       <button
         onClick={handleDismiss}
-        className={`flex-shrink-0 p-1 rounded-md hover:bg-opacity-20 hover:bg-current transition-colors duration-200 ${iconColors[errorType]}`}
+        className={`shrink-0 p-1 rounded-md hover:bg-opacity-20 hover:bg-current transition-colors duration-200 ${iconColors[errorType]}`}
         aria-label="Dismiss error"
       >
         <svg
