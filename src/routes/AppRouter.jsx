@@ -8,6 +8,7 @@ import Home from '../pages/Home';
 import Explore from '../pages/Explore';
 import Login from '../pages/Login';
 import Register from '../pages/Register';
+import ForgotPasswordPage from '../pages/auth/ForgotPasswordPage';
 import Dashboard from '../pages/Dashboard';
 import CampaignDetails from '../pages/CampaignDetails';
 import CreateCampaign from '../pages/CreateCampaign';
@@ -26,6 +27,7 @@ const AppRouter = () => {
           <Route path="explore" element={<Explore />} />
           <Route path="login" element={<Login />} />
           <Route path="register" element={<Register />} />
+          <Route path="forgot-password" element={<ForgotPasswordPage />} />
           <Route path="dashboard" element={<Dashboard />} />
           <Route path="campaign/:id" element={<CampaignDetails />} />
           <Route path="create" element={<CreateCampaign />} />

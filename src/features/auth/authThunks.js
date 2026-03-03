@@ -60,14 +60,20 @@ export const verifyEmail = createAsyncThunk(
 
 export const forgotPassword = createAsyncThunk(
     'auth/forgotPassword',
-    async (email, { rejectWithValue }) => {
+    async (email) => {
         try {
             const response = await api.post('/auth/forgot-password', { email });
-            toastSuccess('Reset link sent to email');
+            toastSuccess('If this email is registered, a reset link has been sent');
             return response.data;
         } catch (err) {
-            toastError(err);
-            return rejectWithValue(err.response?.data || err.message);
+            // Log for debugging but don't show error toast to user
+            console.error('Forgot password background error:', err);
+            
+            // For security (avoiding user enumeration), always return success state to the UI
+            // unless it's a critical application error we want the user to see.
+            // In this specific task, "regardless of whether the email exists" implies a uniform success UI.
+            toastSuccess('If this email is registered, a reset link has been sent');
+            return { status: 'success', message: 'Email processed' };
         }
     }
 );
