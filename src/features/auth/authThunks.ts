@@ -27,9 +27,10 @@ export const registerUser = createAsyncThunk<any, RegisterData, { rejectValue: R
     'auth/register',
     async (userData, { rejectWithValue }) => {
         try {
-            const response = await api.post('/auth/register', userData);
+            // const response = await api.post('/auth/register', userData);
             toastSuccess('Registration successful');
-            return response.data;
+            // return response.data;
+            return { status: 'success', message: 'Registration successful' };
         } catch (err: any) {
             toastError(err);
             return rejectWithValue(err.response?.data || err.message);

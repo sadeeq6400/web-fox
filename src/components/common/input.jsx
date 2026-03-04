@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useState, forwardRef } from "react";
 
-const Input = ({ label, type = "text", placeholder, value, onChange, id, autoComplete }) => {
+const Input = forwardRef(({ label, type = "text", placeholder, value, onChange, id, autoComplete, ...props }, ref) => {
   const [focused, setFocused] = useState(false);
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: "6px", width: "100%" }}>
@@ -19,6 +19,7 @@ const Input = ({ label, type = "text", placeholder, value, onChange, id, autoCom
         </label>
       )}
       <input
+        ref={ref}
         id={id}
         type={type}
         placeholder={placeholder}
@@ -47,9 +48,10 @@ const Input = ({ label, type = "text", placeholder, value, onChange, id, autoCom
         onMouseLeave={(e) => {
           if (!focused) e.currentTarget.style.borderColor = "#e2e8f0";
         }}
+        {...props}
       />
     </div>
   );
-};
+});
 
 export default Input;

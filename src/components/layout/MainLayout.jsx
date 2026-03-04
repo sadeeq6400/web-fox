@@ -57,7 +57,7 @@ const MainLayout = () => {
         </nav>
       </header>
       
-      <main style={{ padding: '2rem' }}>
+      <main style={{ padding: '2 rem' }}>
         <Outlet />
       </main>
 

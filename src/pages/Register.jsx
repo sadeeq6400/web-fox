@@ -1,4 +1,5 @@
-import { useState, useCallback } from "react";
+import { useCallback } from "react";
+import { Link } from 'react-router-dom';
 import { Button } from "../components/common/button";
 import Input from "../components/common/input";
 import { RadioOption } from "../components/common/radioOption";
@@ -6,24 +7,51 @@ import PasswordInput from '../components/common/passwordInput';
 import { FcGoogle } from "react-icons/fc";
 import { SiStellar } from "react-icons/si";
 
-const Register = () => {
-  const [email, setEmail] = useState("");
-  const [role, setRole] = useState("donor");
-  const [password, setPassword] = useState("········");
-  const [confirmPassword, setConfirmPassword] = useState("········");
-  const [loading, setLoading] = useState(false);
+// form & validation
+import { useForm, Controller } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { registerUser } from '../features/auth/authThunks';
+import { registerSchema } from '../features/auth/authValidation';
 
-  const handleCreate = useCallback(() => {
-    setLoading(true);
-    // Placeholder: integrate real submission logic here
-    setTimeout(() => setLoading(false), 2200);
-  }, []);
+const Register = () => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const {
+    control,
+    handleSubmit,
+    formState: { errors, isValid, isSubmitting },
+  } = useForm({
+    resolver: yupResolver(registerSchema),
+    mode: 'onChange',
+    defaultValues: {
+      email: '',
+      role: 'donor',
+      password: '',
+      confirmPassword: '',
+    },
+  });
+
+  const handleCreate = useCallback(
+    async (data) => {
+      try {
+        await dispatch(registerUser(data)).unwrap();
+        navigate('/login');
+      } catch (err) {
+        // toast already shown by thunk
+        console.log(err)
+      }
+    },
+    [dispatch, navigate]
+  );
 
   return (
       <div 
       className="min-h-screen w-154 sm:w-auto bg-linear-to-br from-blue-100 via-sky-100 to-blue-50 flex items-center justify-center p-4 sm:p-6"
       >
-        <div style={{
+        <form onSubmit={handleSubmit(handleCreate)} style={{
           background: "#fff",
           borderRadius: "18px",
           padding: "36px 32px 32px",
@@ -33,7 +61,8 @@ const Register = () => {
           animation: "fadeUp 0.45s ease both",
           display: "flex",
           flexDirection: "column",
-          gap: "18px",
+          gap: "16px",
+          margin: "20px"
         }}>
 
           {/* Logo */}
@@ -76,63 +105,101 @@ const Register = () => {
           </div>
 
           {/* Email */}
-          <Input
-            label="Email Address"
-            id="email"
-            type="email"
-            placeholder="you@example.com"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            autoComplete="email"
+          <Controller
+            name="email"
+            control={control}
+            render={({ field }) => (
+              <Input
+                {...field}
+                label="Email Address"
+                id="email"
+                type="email"
+                placeholder="you@example.com"
+                autoComplete="email"
+              />
+            )}
           />
+          {errors.email && (
+            <p className="text-red-500 text-xs mt-1">{errors.email.message}</p>
+          )}
 
           {/* Role selection */}
-          <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
-            <span style={{ fontSize: "13px", fontWeight: "700", color: "#374151", 
-              // fontFamily: "'Outfit', sans-serif" 
-              }}>
-              I want to
-            </span>
-            <RadioOption
-              id="donor"
-              name="role"
-              value="donor"
-              label="Support projects (Donor)"
-              checked={role === "donor"}
-              onChange={() => setRole("donor")}
-            />
-            <RadioOption
-              id="creator"
-              name="role"
-              value="creator"
-              label="Create a campaign (Creator)"
-              checked={role === "creator"}
-              onChange={() => setRole("creator")}
-            />
-          </div>
+          <Controller
+            name="role"
+            control={control}
+            render={({ field }) => (
+              <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
+                <span
+                  style={{ fontSize: "13px", fontWeight: "700", color: "#374151" }}
+                >
+                  I want to
+                </span>
+                <RadioOption
+                  id="donor"
+                  name="role"
+                  value="donor"
+                  label="Support projects (Donor)"
+                  checked={field.value === "donor"}
+                  onChange={() => field.onChange("donor")}
+                />
+                <RadioOption
+                  id="creator"
+                  name="role"
+                  value="creator"
+                  label="Create a campaign (Creator)"
+                  checked={field.value === "creator"}
+                  onChange={() => field.onChange("creator")}
+                />
+              </div>
+            )}
+          />
+          {errors.role && (
+            <p className="text-red-500 text-xs mt-1">{errors.role.message}</p>
+          )}
 
           {/* Password */}
-          <PasswordInput
-            label="Password"
-            id="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            showStrength={true}
-            autoComplete="new-password"
+          <Controller
+            name="password"
+            control={control}
+            render={({ field }) => (
+              <PasswordInput
+                {...field}
+                label="Password"
+                id="password"
+                showStrength={true}
+                autoComplete="new-password"
+              />
+            )}
           />
+          {errors.password && (
+            <p className="text-red-500 text-xs mt-1">{errors.password.message}</p>
+          )}
 
           {/* Confirm Password */}
-          <PasswordInput
-            label="Confirm Password"
-            id="confirm-password"
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
-            autoComplete="new-password"
+          <Controller
+            name="confirmPassword"
+            control={control}
+            render={({ field }) => (
+              <PasswordInput
+                {...field}
+                label="Confirm Password"
+                id="confirm-password"
+                autoComplete="new-password"
+              />
+            )}
           />
+          {errors.confirmPassword && (
+            <p className="text-red-500 text-xs mt-1">{errors.confirmPassword.message}</p>
+          )}
 
           {/* Primary CTA */}
-          <Button variant="primary" onClick={handleCreate} loading={loading} type="submit">
-            {loading ? "Creating Account…" : "Create Account"}
+          <Button
+            variant="primary"
+            type="submit"
+            loading={isSubmitting}
+            disabled={!isValid || isSubmitting}
+          >
+            {isSubmitting ? "Creating Account…" : "Create Account"}
           </Button>
 
           {/* <OrDivider /> */}
@@ -167,8 +234,8 @@ const Register = () => {
             // fontFamily: "'Outfit', sans-serif",
           }}>
             Already have an account?{" "}
-            <a
-              href="#"
+            <Link
+              to="/login"
               style={{
                 color: "#1d4ed8",
                 fontWeight: "600",
@@ -179,9 +246,9 @@ const Register = () => {
               onMouseLeave={(e) => e.currentTarget.style.color = "#1d4ed8"}
             >
               Sign in
-            </a>
+            </Link>
           </p>
-        </div>
+        </form>
       </div>
   );
 };
