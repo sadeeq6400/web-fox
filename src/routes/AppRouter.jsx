@@ -22,18 +22,18 @@ const AppRouter = () => {
   return (
     <BrowserRouter>
       <Routes>
+          <Route path="register" element={<Register />} />
+          <Route path="login" element={<Login />} />
+          <Route path="forgot-password" element={<ForgotPasswordPage />} />
+          <Route path="admin" element={<Admin />} />
+          <Route path="dashboard" element={<Dashboard />} />
+          <Route path="*" element={<NotFound />} />
         <Route path="/" element={<MainLayout />}>
           <Route index element={<Home />} />
           <Route path="explore" element={<Explore />} />
-          <Route path="login" element={<Login />} />
-          <Route path="register" element={<Register />} />
-          <Route path="forgot-password" element={<ForgotPasswordPage />} />
-          <Route path="dashboard" element={<Dashboard />} />
           <Route path="campaign/:id" element={<CampaignDetails />} />
           <Route path="create" element={<CreateCampaign />} />
-          <Route path="admin" element={<Admin />} />
           <Route path="test-error" element={<ErrorTest />} />
-          <Route path="*" element={<NotFound />} />
         </Route>
       </Routes>
     </BrowserRouter>

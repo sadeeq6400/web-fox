@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai';
 import { useDispatch } from 'react-redux';
 import { loginUser } from '../features/auth/authThunks';
@@ -40,7 +40,7 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-slate-50 to-slate-100 px-4">
+    <div className="min-h-screen flex items-center justify-center bg-linear-to-b from-slate-50 to-slate-100 px-4">
       <div className="w-full max-w-md">
         <div className="bg-white rounded-2xl shadow-xl p-8 space-y-8">
           {/* Logo and Header */}
@@ -166,9 +166,9 @@ export default function LoginPage() {
           {/* Sign Up Link */}
           <div className="text-center text-sm text-gray-600">
             Don't have an account?{' '}
-            <a href="/register" className="text-blue-600 hover:text-blue-700 font-semibold">
+            <Link to="/register" className="text-blue-600 hover:text-blue-700 font-semibold">
               Create one
-            </a>
+            </Link>
           </div>
         </div>
       </div>
