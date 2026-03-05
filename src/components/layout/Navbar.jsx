@@ -49,12 +49,12 @@ export default function Navbar() {
     setIsLoggingOut(true);
     try {
       // Dispatch logoutUser thunk which calls POST /api/auth/logout
-      const result = await dispatch(logoutUser()).unwrap();
+      await dispatch(logoutUser()).unwrap();
       // Show success toast
       toastSuccess('You have been logged out.');
       // Redirect to login
       navigate('/login');
-    } catch (error) {
+    } catch {
       // Even if logout fails on the backend, clear local state and redirect
       // This ensures user can't access protected routes if disconnected
       toastSuccess('You have been logged out.');
