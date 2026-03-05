@@ -9,6 +9,7 @@ import Explore from '../pages/Explore';
 import Login from '../pages/Login';
 import Register from '../pages/Register';
 import ForgotPasswordPage from '../pages/auth/ForgotPasswordPage';
+import ResetPasswordPage from '../pages/auth/ResetPasswordPage';
 import Dashboard from '../pages/Dashboard';
 import CampaignDetails from '../pages/CampaignDetails';
 import CreateCampaign from '../pages/CreateCampaign';
@@ -25,6 +26,7 @@ const AppRouter = () => {
           <Route path="register" element={<Register />} />
           <Route path="login" element={<Login />} />
           <Route path="forgot-password" element={<ForgotPasswordPage />} />
+          <Route path="reset-password/:token" element={<ResetPasswordPage />} />
           <Route path="admin" element={<Admin />} />
           <Route path="dashboard" element={<Dashboard />} />
           <Route path="*" element={<NotFound />} />
