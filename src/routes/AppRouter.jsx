@@ -13,12 +13,12 @@ import Register from '../pages/Register';
 import ForgotPasswordPage from '../pages/auth/ForgotPasswordPage';
 
 // Main pages — lazy-loaded for code splitting
-const Home = lazy(() => import('../pages/Home'));
-const Explore = lazy(() => import('../pages/Explore'));
+const Home            = lazy(() => import('../pages/Home'));
+const Explore         = lazy(() => import('../pages/Explore'));
 const CampaignDetails = lazy(() => import('../pages/CampaignDetails'));
-const CreateCampaign = lazy(() => import('../pages/CreateCampaign'));
-const Dashboard = lazy(() => import('../pages/Dashboard'));
-const Admin = lazy(() => import('../pages/Admin'));
+const CreateCampaign  = lazy(() => import('../pages/CreateCampaign'));
+const Dashboard       = lazy(() => import('../pages/Dashboard'));
+const Admin           = lazy(() => import('../pages/Admin'));
 
 const SuspenseFallback = () => (
   <div className="flex min-h-screen items-center justify-center">
@@ -32,18 +32,28 @@ const AppRouter = () => {
       <GlobalLoadingWrapper>
         <Suspense fallback={<SuspenseFallback />}>
           <Routes>
-            <Route path="register" element={<Register />} />
-            <Route path="login" element={<Login />} />
-            <Route path="forgot-password" element={<ForgotPasswordPage />} />
-            <Route path="admin" element={<Admin />} />
-            <Route path="dashboard" element={<Dashboard />} />
-            <Route path="*" element={<NotFound />} />
-            <Route path="/" element={<MainLayout />}>
-              <Route index element={<Home />} />
-              <Route path="explore" element={<Explore />} />
-              <Route path="campaign/:id" element={<CampaignDetails />} />
-              <Route path="create" element={<CreateCampaign />} />
-              <Route path="test-error" element={<ErrorTest />} />
+            {/* Every route lives inside MainLayout — Navbar + Footer always present */}
+            <Route element={<MainLayout />}>
+
+              {/* Auth & utility pages */}
+              <Route path="register"        element={<Register />} />
+              <Route path="login"           element={<Login />} />
+              <Route path="forgot-password" element={<ForgotPasswordPage />} />
+              <Route path="admin"           element={<Admin />} />
+              <Route path="dashboard"       element={<Dashboard />} />
+
+              {/* Main public pages */}
+              <Route path="/">
+                <Route index                    element={<Home />} />
+                <Route path="explore"           element={<Explore />} />
+                <Route path="campaign/:id"      element={<CampaignDetails />} />
+                <Route path="create"            element={<CreateCampaign />} />
+                <Route path="test-error"        element={<ErrorTest />} />
+              </Route>
+
+              {/* 404 — also gets Navbar + Footer */}
+              <Route path="*" element={<NotFound />} />
+
             </Route>
           </Routes>
         </Suspense>
