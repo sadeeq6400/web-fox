@@ -7,13 +7,13 @@ import Spinner from '../components/common/Spinner';
 import NotFound from '../pages/NotFound';
 import ErrorTest from '../components/common/ErrorTest';
 
-// Auth pages — small, kept as static imports
+// Auth pages
 import Login from '../pages/Login';
 import Register from '../pages/Register';
 import ForgotPasswordPage from '../pages/auth/ForgotPasswordPage';
 import VerifyEmailPage from '../pages/auth/VerifyEmailPage';
 
-// Main pages — lazy-loaded for code splitting
+// Lazy-loaded pages
 const Home = lazy(() => import('../pages/Home'));
 const Explore = lazy(() => import('../pages/Explore'));
 const CampaignDetails = lazy(() => import('../pages/CampaignDetails'));
@@ -33,20 +33,29 @@ const AppRouter = () => {
       <GlobalLoadingWrapper>
         <Suspense fallback={<SuspenseFallback />}>
           <Routes>
-            <Route path="register" element={<Register />} />
-            <Route path="login" element={<Login />} />
-            <Route path="forgot-password" element={<ForgotPasswordPage />} />
-            <Route path="verify-email/:token" element={<VerifyEmailPage />} />
-            <Route path="admin" element={<Admin />} />
-            <Route path="dashboard" element={<Dashboard />} />
-            <Route path="*" element={<NotFound />} />
-            <Route path="/" element={<MainLayout />}>
+
+            {/* Public pages with Navbar + Footer */}
+            <Route element={<MainLayout />}>
               <Route index element={<Home />} />
               <Route path="explore" element={<Explore />} />
               <Route path="campaign/:id" element={<CampaignDetails />} />
               <Route path="create" element={<CreateCampaign />} />
               <Route path="test-error" element={<ErrorTest />} />
             </Route>
+
+            {/* Auth pages (no layout if desired) */}
+            <Route path="register" element={<Register />} />
+            <Route path="login" element={<Login />} />
+            <Route path="forgot-password" element={<ForgotPasswordPage />} />
+            <Route path="verify-email/:token" element={<VerifyEmailPage />} />
+
+            {/* App pages */}
+            <Route path="dashboard" element={<Dashboard />} />
+            <Route path="admin" element={<Admin />} />
+
+            {/* 404 */}
+            <Route path="*" element={<NotFound />} />
+
           </Routes>
         </Suspense>
       </GlobalLoadingWrapper>

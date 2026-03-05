@@ -1,9 +1,33 @@
-import { Outlet, Link } from 'react-router-dom';
+import { Outlet } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
+import Navbar from './Navbar';
+import Footer from './Footer';
 
-const MainLayout = () => {
+/**
+ * MainLayout
+ * Wraps every public page with the sticky Navbar and Footer.
+ * Usage in AppRouter.jsx:
+ *
+ *   <Route element={<MainLayout />}>
+ *     <Route path="/"        element={<Home />} />
+ *     <Route path="/explore" element={<Explore />} />
+ *     …
+ *   </Route>
+ */
+export default function MainLayout() {
   return (
-    <div>
+    <>
+      <style>{`
+        .ml-root {
+          display: flex;
+          flex-direction: column;
+          min-height: 100vh;
+        }
+        .ml-main {
+          flex: 1;
+        }
+      `}</style>
+
       <Toaster
         position="top-right"
         toastOptions={{
@@ -13,59 +37,33 @@ const MainLayout = () => {
             background: '#ffffff',
             color: '#0F172A',
             borderRadius: '8px',
+            fontFamily: "'Poppins', sans-serif",
+            fontSize: '.875rem',
             boxShadow:
-              '0 10px 15px -3px rgba(15,23,42,0.1), 0 4px 6px -4px rgba(15,23,42,0.1)',
+              '0 10px 15px -3px rgba(15,23,42,.1), 0 4px 6px -4px rgba(15,23,42,.1)',
           },
           success: {
-            iconTheme: {
-              primary: '#10B981',
-              secondary: '#ffffff',
-            },
-            style: {
-              borderColor: '#10B981',
-            },
+            iconTheme: { primary: '#10B981', secondary: '#ffffff' },
+            style: { borderColor: '#10B981' },
           },
           error: {
-            iconTheme: {
-              primary: '#EF4444',
-              secondary: '#ffffff',
-            },
-            style: {
-              borderColor: '#EF4444',
-            },
+            iconTheme: { primary: '#EF4444', secondary: '#ffffff' },
+            style: { borderColor: '#EF4444' },
           },
           loading: {
-            iconTheme: {
-              primary: '#6366F1',
-              secondary: '#ffffff',
-            },
-            style: {
-              borderColor: '#6366F1',
-            },
+            iconTheme: { primary: '#6366F1', secondary: '#ffffff' },
+            style: { borderColor: '#6366F1' },
           },
         }}
       />
-      <header>
-        <nav style={{ display: 'flex', gap: '1rem', padding: '1rem', background: '#f0f0f0' }}>
-          <Link to="/">Home</Link>
-          <Link to="/explore">Explore</Link>
-          <Link to="/create">Create Campaign</Link>
-          <Link to="/dashboard">Dashboard</Link>
-          <Link to="/admin">Admin</Link>
-          <Link to="/login">Login</Link>
-          <Link to="/register">Register</Link>
-        </nav>
-      </header>
-      
-      <main style={{ padding: '2 rem' }}>
-        <Outlet />
-      </main>
 
-      <footer style={{ padding: '1rem', textAlign: 'center', marginTop: 'auto', background: '#f0f0f0' }}>
-        <p>© {new Date().getFullYear()} StellarAid. All rights reserved.</p>
-      </footer>
-    </div>
+      <div className="ml-root">
+        <Navbar />
+        <main className="ml-main">
+          <Outlet />
+        </main>
+        <Footer />
+      </div>
+    </>
   );
-};
-
-export default MainLayout;
+}
