@@ -11,6 +11,7 @@ import ErrorTest from '../components/common/ErrorTest';
 import Login from '../pages/Login';
 import Register from '../pages/Register';
 import ForgotPasswordPage from '../pages/auth/ForgotPasswordPage';
+import VerifyEmailPage from '../pages/auth/VerifyEmailPage';
 
 // Main pages — lazy-loaded for code splitting
 const Home = lazy(() => import('../pages/Home'));
@@ -35,6 +36,7 @@ const AppRouter = () => {
             <Route path="register" element={<Register />} />
             <Route path="login" element={<Login />} />
             <Route path="forgot-password" element={<ForgotPasswordPage />} />
+            <Route path="verify-email/:token" element={<VerifyEmailPage />} />
             <Route path="admin" element={<Admin />} />
             <Route path="dashboard" element={<Dashboard />} />
             <Route path="*" element={<NotFound />} />
